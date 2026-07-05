@@ -38,7 +38,15 @@ if (!firebaseConfig.apiKey) {
   );
 }
 
-// Initialize Firebase services
-export const firebase = initializeApp(firebaseConfig);
-export const auth = getAuth(firebase);
-export const db = getFirestore(firebase);
+import { browser } from "$app/env";
+
+export let firebase;
+export let auth;
+export let db;
+
+if (browser) {
+  // Initialize Firebase services
+  firebase = initializeApp(firebaseConfig);
+  auth = getAuth(firebase);
+  db = getFirestore(firebase);
+}

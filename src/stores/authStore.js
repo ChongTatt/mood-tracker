@@ -30,22 +30,26 @@ export async function logout() {
   await signOut(auth);
 }
 
+import { browser } from '$app/env';
+
 // Listen to Firebase authentication state changes
-onAuthStateChanged(auth, (firebaseUser) => {
-  if (firebaseUser) {
-    authStore.set({
-      user: firebaseUser,
-      loading: false,
-      isLoggedIn: true
-    });
-  } else {
-    authStore.set({
-      user: null,
-      loading: false,
-      isLoggedIn: false
-    });
-  }
-});
+if (browser && auth) {
+  onAuthStateChanged(auth, (firebaseUser) => {
+    if (firebaseUser) {
+      authStore.set({
+        user: firebaseUser,
+        loading: false,
+        isLoggedIn: true
+      });
+    } else {
+      authStore.set({
+        user: null,
+        loading: false,
+        isLoggedIn: false
+      });
+    }
+  });
+}
 
 // Expose public API
 export default {
